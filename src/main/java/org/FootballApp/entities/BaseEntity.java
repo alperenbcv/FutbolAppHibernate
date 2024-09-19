@@ -20,7 +20,7 @@ public abstract class BaseEntity {
 	public BaseEntity() {
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	

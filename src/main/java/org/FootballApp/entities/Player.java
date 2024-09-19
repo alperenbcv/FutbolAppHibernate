@@ -27,7 +27,7 @@ public class Player extends Person implements Observable {
 	private GKAttributes gkAttributes;
 	
 	public Player() {
-		super(++playerCounter);
+	
 	}
 	
 	public Player(String name, String surName, Integer age, String nationality,

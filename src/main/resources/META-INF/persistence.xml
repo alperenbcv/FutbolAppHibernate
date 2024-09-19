@@ -6,7 +6,9 @@
 
     <persistence-unit name="pu_hibernate">
 
-        <class>org.</class>
+        <class>org.FootballApp.entities.BaseEntity</class>
+        <class>org.FootballApp.entities.League</class>
+        <class>org.FootballApp.entities.Team</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver"

@@ -13,6 +13,7 @@ import org.FootballApp.models.DatabaseModels;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -258,11 +259,13 @@ public class DataIO {
 	public static void setTeamsToLeague() {
 		List<League> leagues = DatabaseModels.leagueDB.listAll();
 		List<Team> teams = DatabaseModels.teamDB.listAll();
+		List<Integer> idList = new ArrayList<>();
 		for (League league : leagues) {
 			int id = league.getId();
 			for (Team team : teams) {
 				if(team.getLeagueID() == id){
-					league.setLeagueTeamIDList(team.getId());
+					idList.add(team.getId());
+					league.setLeagueTeamIDList(idList);
 				}
 			}
 		}
@@ -556,8 +559,6 @@ public class DataIO {
 	
 	
 	
-	
-	@Override
 	public void update(Observable observable) {
 		saveMatchesToFile();
 		saveTeamsToFile();

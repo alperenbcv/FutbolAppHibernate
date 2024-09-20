@@ -1,6 +1,18 @@
 package org.FootballApp.entities.attributes;
 
-public class GKAttributes implements PlayerAttributes {
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import org.FootballApp.entities.BaseEntity;
+@Data
+@SuperBuilder
+@Entity
+@Table(name = "tblgoalkeeperattributes")
+public class GKAttributes extends BaseEntity implements PlayerAttributes {
 	private Integer reflexes;
 	private Integer positioning;
 	private Integer diving;
@@ -11,6 +23,10 @@ public class GKAttributes implements PlayerAttributes {
 		this.positioning = positioning;
 		this.diving = diving;
 		this.oneOnOne = oneOnOne;
+	}
+	
+	public GKAttributes() {
+	
 	}
 	
 	public Integer getReflexes() {

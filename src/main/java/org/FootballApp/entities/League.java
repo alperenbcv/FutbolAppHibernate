@@ -1,32 +1,36 @@
 package org.FootballApp.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.FootballApp.enums.ERegion;
 import org.FootballApp.models.DatabaseModels;
-
 import java.time.LocalDate;
 import java.util.List;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@SuperBuilder
+@Entity
+@Table(name = "tblleague")
 public class League extends BaseEntity {
 	
 	@Column(unique = true, nullable = false)
 	private String leagueName;
-	@Enumerated
+	@Enumerated(EnumType.STRING)
 	private ERegion region;
 	private String season;
 	private Integer division;
 	private LocalDate seasonStartDate;
 	private LocalDate seasonEndDate;
 	@OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
+	private List<Team> leagueTeamList;
+	@Transient
 	private List<Integer> leagueTeamIDList;
 	
 	
-	public League() {
-	
-	}
 	
 	public League(String leagueName, String season, Integer division, ERegion region) {
 		
@@ -39,52 +43,4 @@ public class League extends BaseEntity {
 		DatabaseModels.leagueDB.save(this);
 	}
 	
-	
-	
-	public LocalDate getSeasonStartDate() {
-		return seasonStartDate;
-	}
-	
-	public void setSeasonStartDate(LocalDate seasonStartDate) {
-		this.seasonStartDate = seasonStartDate;
-		
-	}
-	
-	public LocalDate getSeasonEndDate() {
-		return seasonEndDate;
-	}
-	
-	public void setSeasonEndDate(LocalDate seasonEndDate) {
-		this.seasonEndDate = seasonEndDate;
-		
-	}
-	
-	public String getLeagueName() {
-		return leagueName;
-	}
-	
-	public ERegion getRegion() {
-		return region;
-	}
-	
-	
-	public String getSeason() {
-		return season;
-	}
-	
-	public void setSeason(String season) {
-		this.season = season;
-	}
-	
-	public List<Integer> getLeagueTeamIDList() {
-		return leagueTeamIDList;
-	}
-	
-	public void setLeagueTeamIDList(List<Integer> leagueTeamIDList) {
-		this.leagueTeamIDList = leagueTeamIDList;
-	}
-	
-	public Integer getDivision() {
-		return division;
-	}
 }

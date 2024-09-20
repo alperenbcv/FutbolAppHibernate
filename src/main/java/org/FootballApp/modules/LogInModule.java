@@ -45,9 +45,9 @@ public class LogInModule {
 		System.out.println("\n---------------Available Managers in The League------------------");
 		List<Manager> all = DatabaseModels.managerDB.findByLeagueID(leagueID);
 		all.stream().forEach(manager -> {
-			Optional<Team> byID = DatabaseModels.teamDB.findByID(manager.getCurrentTeamID());
+			Optional<Team> byID = DatabaseModels.teamDB.findByID(manager.getTeam().getId());
 			if (byID.isPresent()) {
-				System.out.println(manager.getId() + " " + manager.getName() + " " + manager.getSurName() + " " + byID.get().getTeamName());
+				System.out.println(manager.getId() + " " + manager.getPersonName() + " " + manager.getPersonSurname() + " " + byID.get().getTeamName());
 			}
 		});
 
@@ -96,7 +96,7 @@ public class LogInModule {
 			Optional<Manager> byUsernameAndPassword = DatabaseModels.managerDB.findByUsernameAndPassword(username, password);
 			if (byUsernameAndPassword.isPresent()) {
 				System.out.println("Login Successful!");
-				System.out.println("\nYou are playing as: " + byUsernameAndPassword.get().getName() + " " + byUsernameAndPassword.get().getSurName() + "\n");
+				System.out.println("\nYou are playing as: " + byUsernameAndPassword.get().getPersonName() + " " + byUsernameAndPassword.get().getPersonSurname() + "\n");
 				loggedManager = byUsernameAndPassword.get();
 				return loggedManager;
 			} else {

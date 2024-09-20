@@ -40,10 +40,10 @@ public class TeamModel {
 			
 			if (match.getStatus() == EMatchStatus.PLAYED) {
 				
-				String homeTeamName = DatabaseModels.teamDB.findByID(match.getHomeTeamId())
+				String homeTeamName = DatabaseModels.teamDB.findByID(match.getHomeTeam().getId())
 				                                           .map(Team::getTeamName)
 				                                           .orElse("Unknown");
-				String awayTeamName = DatabaseModels.teamDB.findByID(match.getAwayTeamId())
+				String awayTeamName = DatabaseModels.teamDB.findByID(match.getAwayTeam().getId())
 				                                           .map(Team::getTeamName)
 				                                           .orElse("Unknown");
 				

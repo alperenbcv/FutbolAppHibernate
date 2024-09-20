@@ -21,7 +21,7 @@ public class TeamStatDB extends DatabaseManager<TeamStats> {
 	public List<TeamStats> findByLeagueID(Integer leagueID){
 		List<TeamStats> statListByLeague=new ArrayList<>();
 		for(TeamStats ts:veriListesi){
-			if(ts.getTeamLeagueID().equals(leagueID)){
+			if(ts.getTeam().getLeagueID().equals(leagueID)){
 				statListByLeague.add(ts);
 			}
 		}

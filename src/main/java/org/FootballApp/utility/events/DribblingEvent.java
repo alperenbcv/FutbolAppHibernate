@@ -38,14 +38,14 @@ public class DribblingEvent extends Event{
 		} else {
 			// Dribbling başarısız, top savunma oyuncusuna geçer
 			ball.setPlayerWithBall(defender);
-			System.out.println("Dribble failed! Ball intercepted by " + defender.getName() + " at position " + ball.getPosition());
+			System.out.println("Dribble failed! Ball intercepted by " + defender.getPersonName() + " at position " + ball.getPosition());
 			return false;
 		}
 	}
 	
 	private Integer dribblingDirection(Ball ball, Match match) {
 		
-		if(ball.getPlayerWithBall().getCurrentTeamID() == match.getHomeTeamId()) {
+		if(ball.getPlayerWithBall().getTeam().getId() == match.getHomeTeam().getId()) {
 			return -1;
 		}
 		else{

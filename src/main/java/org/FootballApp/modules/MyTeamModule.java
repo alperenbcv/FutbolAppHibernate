@@ -66,25 +66,25 @@ public class MyTeamModule {
 	
 	private static void displayMyInfo(Manager loggedManager) {
 		System.out.println("\nManager Information:");
-		System.out.println("Name              : " + loggedManager.getName());
-		System.out.println("Surname           : " + loggedManager.getSurName());
-		System.out.println("Age               : " + loggedManager.getAge());
-		System.out.println("Nationality       : " + loggedManager.getNationality());
-		System.out.println("Current Team Name : " + DatabaseModels.teamDB.findByID(loggedManager.getCurrentTeamID()).get().getTeamName());
+		System.out.println("Name              : " + loggedManager.getPersonName());
+		System.out.println("Surname           : " + loggedManager.getPersonSurname());
+		System.out.println("Age               : " + loggedManager.getPersonAge());
+		System.out.println("Nationality       : " + loggedManager.getPersonNationality());
+		System.out.println("Current Team Name : " + DatabaseModels.teamDB.findByID(loggedManager.getTeam().getId()).get().getTeamName());
 		System.out.println("---------------------------------------------------------");
 		
 	}
 	
 	private static void displayMyResults(Manager loggedManager) {
 		System.out.println("\nMatch Results of My Team:");
-		Team team = DatabaseModels.teamDB.findByID(loggedManager.getCurrentTeamID()).get();
+		Team team = DatabaseModels.teamDB.findByID(loggedManager.getTeam().getId()).get();
 		TeamModel teamModel=new TeamModel(DatabaseModels.getInstance(), team);
 		teamModel.displayConcludedMatchesofaTeam();
 	}
 	
 	private static void displayMyFixture(Manager loggedManager) {
 		System.out.println("\nFixture of My Team:");
-		Team team = DatabaseModels.teamDB.findByID(loggedManager.getCurrentTeamID()).get();
+		Team team = DatabaseModels.teamDB.findByID(loggedManager.getTeam().getId()).get();
 		Optional<League> byID = DatabaseModels.leagueDB.findByID(team.getLeagueID());
 		if(byID.isPresent()){
 			FixtureModel fixtureModel=new FixtureModel(DatabaseModels.getInstance(), byID.get());
@@ -98,13 +98,13 @@ public class MyTeamModule {
 	
 	private static void displayMyPlayer(Manager loggedManager) {
 		System.out.println("\nPlayers of My Team:");
-		TeamModel teamModel=new TeamModel(DatabaseModels.getInstance(), DatabaseModels.teamDB.findByID(loggedManager.getCurrentTeamID()).get());
+		TeamModel teamModel=new TeamModel(DatabaseModels.getInstance(), DatabaseModels.teamDB.findByID(loggedManager.getTeam().getId()).get());
 		teamModel.displayTeamPlayers();
 	}
 	
 	private static void displayMyTeam(Manager loggedManager) {
 		System.out.println("\nDetails of My Team:");
-		TeamModel teamModel=new TeamModel(DatabaseModels.getInstance(), DatabaseModels.teamDB.findByID(loggedManager.getCurrentTeamID()).get());
+		TeamModel teamModel=new TeamModel(DatabaseModels.getInstance(), DatabaseModels.teamDB.findByID(loggedManager.getTeam().getId()).get());
 		teamModel.displayClubInfo();
 	}
 }

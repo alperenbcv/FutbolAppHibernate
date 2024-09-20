@@ -22,7 +22,7 @@ public class PlayerDB extends DatabaseManager<Player> {
 	
 	public Optional<Player> findByName(String name) {
 		for (Player player : veriListesi) {
-			if (player.getName().equals(name)) {
+			if (player.getPersonName().equals(name)) {
 				return Optional.of(player);
 			}
 		}
@@ -36,7 +36,7 @@ public class PlayerDB extends DatabaseManager<Player> {
 	public List<Player> playerListByID(Integer teamID) {
 		List<Player> playerList = new ArrayList<>();
 		for (Player player : veriListesi) {
-			if (player.getCurrentTeamID() == teamID) {
+			if (player.getTeam().getId() == teamID) {
 				playerList.add(player);
 			}
 		}
@@ -47,7 +47,7 @@ public class PlayerDB extends DatabaseManager<Player> {
 	public List<Player> findByTeamID(Integer teamID) {
 		List<Player> foundPlayers = new ArrayList<>();
 		for (Player player : veriListesi) {
-			if (player.getCurrentTeamID() == teamID) {
+			if (player.getTeam().getId() == teamID) {
 				foundPlayers.add(player);
 			}
 		}
@@ -57,7 +57,7 @@ public class PlayerDB extends DatabaseManager<Player> {
 	public List<Player> findByPlayerName(String playerName) {
 		List<Player> foundPlayers = new ArrayList<>();
 		for (Player player : veriListesi) {
-			if (player.getName().toLowerCase().contains(playerName.toLowerCase())) {
+			if (player.getPersonName().toLowerCase().contains(playerName.toLowerCase())) {
 				foundPlayers.add(player);
 				
 			}

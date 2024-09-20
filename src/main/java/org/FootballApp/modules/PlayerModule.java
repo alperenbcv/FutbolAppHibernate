@@ -119,7 +119,7 @@ public class PlayerModule {
 			return;
 		}
 		System.out.println("\n-----------------------Player List----------------------------------------");
-		byPlayerName.forEach(player -> System.out.println("PlayerID: " + player.getId() + " PlayerNameSurname: " + player.getName() + " " + player.getSurName()));
+		byPlayerName.forEach(player -> System.out.println("PlayerID: " + player.getId() + " PlayerNameSurname: " + player.getPersonName() + " " + player.getPersonSurname()));
 		displayPlayerDetails();
 	}
 	

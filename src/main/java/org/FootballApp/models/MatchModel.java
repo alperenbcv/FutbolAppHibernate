@@ -19,11 +19,11 @@ public class MatchModel {
 	
 	public MatchModel(DatabaseModels dm, Match match) {
 		this.databaseModel=dm;
-		this.homeTeam=DatabaseModels.teamDB.findByID(match.getHomeTeamId()).get();
-		this.awayTeam=DatabaseModels.teamDB.findByID(match.getAwayTeamId()).get();
+		this.homeTeam=DatabaseModels.teamDB.findByID(match.getHomeTeam().getId()).get();
+		this.awayTeam=DatabaseModels.teamDB.findByID(match.getAwayTeam().getId()).get();
 		this.matchDate=match.getMatchDate();
 		this.status=match.getStatus();
-		this.matchLeague=DatabaseModels.leagueDB.findByID(match.getLeagueId()).get();
+		this.matchLeague=DatabaseModels.leagueDB.findByID(match.getLeague().getId()).get();
 		this.homeTeamScore=match.getHomeTeamScore();
 		this.awayTeamScore=match.getAwayTeamScore();
 	}

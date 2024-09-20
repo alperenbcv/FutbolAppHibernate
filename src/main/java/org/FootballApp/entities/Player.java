@@ -1,5 +1,11 @@
 package org.FootballApp.entities;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.FootballApp.entities.attributes.GKAttributes;
 import org.FootballApp.entities.attributes.MentalAttributes;
 import org.FootballApp.entities.attributes.PhysicalAttributes;
@@ -12,29 +18,39 @@ import org.FootballApp.models.DatabaseModels;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends Person implements Observable {
-	private List<Observer> observers = new ArrayList<>();
-	private static Integer playerCounter=0;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Entity
+@Table(name="tblplayer")
+public class Player extends Person {
 	
 	private Integer playerOverallRating;
-	private Integer currentTeamID;
+	@ManyToOne
+	@JoinColumn(name = "team_id", referencedColumnName = "id")
+	private Team team;
 	private Double playerValue;
 	private Double playerWage;
+	@Enumerated(EnumType.STRING)
 	private EPosition playersPosition;
+	@ManyToOne
+	@JoinColumn(name = "technical_attributes_id", referencedColumnName = "id")
 	private TechnicalAttributes playerTechnicalAttributes;
-	private MentalAttributes playerMentalAttributes;
-	private PhysicalAttributes playerPhysicalAttributes;
-	private GKAttributes gkAttributes;
+	@ManyToOne
+    @JoinColumn(name = "mental_attributes_id", referencedColumnName = "id")
+    private MentalAttributes playerMentalAttributes;
+	@ManyToOne
+    @JoinColumn(name = "physical_attributes_id", referencedColumnName = "id")
+    private PhysicalAttributes playerPhysicalAttributes;
+	@ManyToOne
+    @JoinColumn(name = "gk_attributes_id", referencedColumnName = "id")
+    private GKAttributes gkAttributes;
 	
-	public Player() {
 	
-	}
-	
-	public Player(String name, String surName, Integer age, String nationality,
+	public Player(
 	              TechnicalAttributes technicalAttributes, MentalAttributes mentalAttributes, PhysicalAttributes physicalAttributes,
-	              Integer teamID, Double playerValue, Double playerWage, EPosition EplayersPosition) {
-		super(++playerCounter,name,surName,age,nationality);
-		this.currentTeamID=teamID;
+	              Double playerValue, Double playerWage, EPosition EplayersPosition) {
 		this.playerValue = playerValue;
 		this.playerWage = playerWage;
 		this.playersPosition = EplayersPosition;
@@ -45,17 +61,20 @@ public class Player extends Person implements Observable {
 		DatabaseModels.playerDB.save(this);
 	}
 	
-	public Player(String name, String surName, Integer age, String nationality,
-	              GKAttributes gkAttributes,
-	              Integer teamID, Double playerValue, Double playerWage) {
-		super(++playerCounter, name, surName, age, nationality);
-		this.currentTeamID = teamID;
+	public Player(GKAttributes gkAttributes,
+	              Double playerValue, Double playerWage) {
 		this.playerValue = playerValue;
 		this.playerWage = playerWage;
 		this.playersPosition = EPosition.GK;
 		this.gkAttributes = gkAttributes;
 		this.playerOverallRating = calculateOverallRating();
 		DatabaseModels.playerDB.save(this);
+	}
+	
+	public Player(String name, String surname, Integer age, String nationality, TechnicalAttributes ta, MentalAttributes ma, PhysicalAttributes pa, int id, Double value, Double wage, EPosition position) {
+	}
+	
+	public Player(String name, String surnameGK, Integer ageGK, String nationality, GKAttributes ga, int id, Double value, Double wage) {
 	}
 	
 	
@@ -123,111 +142,4 @@ public class Player extends Person implements Observable {
 		return playerOverallRating;
 	}
 	
-	public MentalAttributes getPlayerMentalAttributes() {
-		return playerMentalAttributes;
-	}
-	
-	public void setPlayerMentalAttributes(MentalAttributes playerMentalAttributes) {
-		this.playerMentalAttributes = playerMentalAttributes;
-	}
-	
-	public PhysicalAttributes getPlayerPhysicalAttributes() {
-		return playerPhysicalAttributes;
-	}
-	
-	public void setPlayerPhysicalAttributes(PhysicalAttributes playerPhysicalAttributes) {
-		this.playerPhysicalAttributes = playerPhysicalAttributes;
-	}
-	
-	public GKAttributes getGkAttributes() {
-		return gkAttributes;
-	}
-	
-	public void setGkAttributes(GKAttributes gkAttributes) {
-		this.gkAttributes = gkAttributes;
-	}
-	
-	public void setCurrentTeamID(Integer currentTeamID) {
-		this.currentTeamID = currentTeamID;
-		notifyObservers();
-	}
-	
-	public TechnicalAttributes getPlayerTechnicalAttributes() {
-		return playerTechnicalAttributes;
-	}
-	
-	public void setPlayerTechnicalAttributes(TechnicalAttributes playerTechnicalAttributes) {
-		this.playerTechnicalAttributes = playerTechnicalAttributes;
-		notifyObservers();
-	}
-	
-	public Integer getCurrentTeamID() {
-		return currentTeamID;
-	}
-	
-	public Integer getPlayerOverallRating() {
-		return playerOverallRating;
-	}
-	
-	public Double getPlayerValue() {
-		return playerValue;
-	}
-	
-	public void setPlayerValue(Double playerValue) {
-		this.playerValue = playerValue;
-		notifyObservers();
-	}
-	
-	public Double getPlayerWage() {
-		return playerWage;
-	}
-	
-	public void setPlayerWage(Double playerWage) {
-		this.playerWage = playerWage;
-		notifyObservers();
-	}
-	
-	public EPosition getPlayersPosition() {
-		return playersPosition;
-	}
-	
-	public void setPlayersPosition(EPosition playersPosition) {
-		this.playersPosition = playersPosition;
-		notifyObservers();
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "Player"
-				+ " ID: " + getId()
-				+ ", Name=" + getName()
-				+ ", Surname=" + getSurName()
-				+ ", Age=" + getAge()
-				+ ", Nationality=" + getNationality()
-				+ ", CurrentTeamID=" + currentTeamID
-//				+ ", CurrentTeamName=" + getCurrentTeamName(currentTeamID)
-				+ ", Position=" + getPlayersPosition()
-				+ ", OverallRating=" + getPlayerOverallRating()
-				+ ", Value=" + getPlayerValue()
-				+ ", Wage=" + getPlayerWage()
-				+ ", " + playerTechnicalAttributes;
-	}
-	
-	@Override
-	public void addObserver(Observer observer) {
-		observers.add(observer);
-	}
-	
-	@Override
-	public void removeObserver(Observer observer) {
-		observers.remove(observer);
-	}
-	
-	@Override
-	public void notifyObservers() {
-		for (Observer observer : observers) {
-			observer.update(this);
-		}
-	}
 }

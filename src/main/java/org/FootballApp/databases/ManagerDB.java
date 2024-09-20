@@ -22,7 +22,7 @@ public class ManagerDB extends DatabaseManager<Manager> {
 	
 	public Optional<Manager> findByName(String name) {
 		for (Manager manager : veriListesi) {
-			if (manager.getName().equals(name)) {
+			if (manager.getPersonName().equals(name)) {
 				return Optional.of(manager);
 			}
 		}
@@ -51,7 +51,7 @@ public class ManagerDB extends DatabaseManager<Manager> {
 			List<Integer> leagueTeamIDList = league.getLeagueTeamIDList();
 			List<Manager> managers = listAll();
 			
-			Integer managerTeamID = manager.getCurrentTeamID();
+			Integer managerTeamID = manager.getTeam().getId();
 			if (leagueTeamIDList.contains(managerTeamID)) {
 				matchingManagers.add(manager);
 			}

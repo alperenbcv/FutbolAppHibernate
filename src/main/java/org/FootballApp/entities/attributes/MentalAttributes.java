@@ -1,9 +1,19 @@
 package org.FootballApp.entities.attributes;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.FootballApp.entities.BaseEntity;
 
+@Data
+@SuperBuilder
+@Entity
+@Table(name = "tblmentalattributes")
 public class MentalAttributes extends BaseEntity implements PlayerAttributes{
-	private static Integer mentalCount=0;
 	
 	private Integer composure;
 	private Integer vision;
@@ -14,6 +24,10 @@ public class MentalAttributes extends BaseEntity implements PlayerAttributes{
 		this.composure = composure;
 		this.vision = vision;
 		this.decisionMaking = decisionMaking;
+	}
+	
+	public MentalAttributes() {
+	
 	}
 	
 	public Integer getComposure() {

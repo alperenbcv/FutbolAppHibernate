@@ -30,19 +30,19 @@ public class CrossEvent extends Event {
 			if (avgCross*chance > avgBack) {
 				if (Math.random() * 20 < ballReceiver.getPlayerTechnicalAttributes().getFirstTouch()) {
 					ball.setPosition(ball.getPosition() + 20*crossDirection(ball,match)); // Top 20 metre ilerler
-					System.out.println("Cross succeeded! Ball is now with " + ballReceiver.getName() + " at position " + ball.getPosition());
+					System.out.println("Cross succeeded! Ball is now with " + ballReceiver.getPersonName() + " at position " + ball.getPosition());
 					
 					// Top savunmacıya gider ve kafa mücadelesi başlar
 					return handleHeaderDuel(ball, ballReceiver, defender, goalkeeper, match);
 				} else {
 					ball.setPlayerWithBall(defender);
 					ball.setPosition(ball.getPosition() + 20);
-					System.out.println("Cross succeeded! But " + ballReceiver.getName() + " couldn't control the ball..." + " Ball is now with " + defender.getName() + " at position " + ball.getPosition() + ".");
+					System.out.println("Cross succeeded! But " + ballReceiver.getPersonName() + " couldn't control the ball..." + " Ball is now with " + defender.getPersonName() + " at position " + ball.getPosition() + ".");
 					return false;
 				}
 			} else {
 				ball.setPlayerWithBall(backPlayer);
-				System.out.println("Cross intercepted by " + backPlayer.getName() + "! Ball is now with " + backPlayer.getName() + " at position " + ball.getPosition() + ".");
+				System.out.println("Cross intercepted by " + backPlayer.getPersonName() + "! Ball is now with " + backPlayer.getPersonName() + " at position " + ball.getPosition() + ".");
 				return false;
 			}
 		}
@@ -70,17 +70,17 @@ public class CrossEvent extends Event {
 			if (avgCross*chance > avgBack) {
 				if (Math.random() * 25 < ballReceiver.getPlayerTechnicalAttributes().getFirstTouch()) {
 					ball.setPosition(ball.getPosition() + 30*crossDirection(ball,match)); // Top 30 metre ilerler
-					System.out.println("Cross succeeded! Ball is now with " + ballReceiver.getName() + " at position " + ball.getPosition());
+					System.out.println("Cross succeeded! Ball is now with " + ballReceiver.getPersonName() + " at position " + ball.getPosition());
 					return handleHeaderDuel(ball, ballReceiver, defender, goalkeeper, match);
 				} else {
 					ball.setPlayerWithBall(defender);
 					ball.setPosition(ball.getPosition()+30);
-					System.out.println("Cross succeeded! But " + ballReceiver.getName() + " couldn't control the ball..." + " Ball is now with " + defender.getName() + " at position " + ball.getPosition() + ".");
+					System.out.println("Cross succeeded! But " + ballReceiver.getPersonName() + " couldn't control the ball..." + " Ball is now with " + defender.getPersonName() + " at position " + ball.getPosition() + ".");
 					return false;
 				}
 			} else {
 				ball.setPlayerWithBall(backPlayer);
-				System.out.println("Cross intercepted by " + backPlayer.getName() + "! Ball is now with " + backPlayer.getName() + " at position " + ball.getPosition() + ".");
+				System.out.println("Cross intercepted by " + backPlayer.getPersonName() + "! Ball is now with " + backPlayer.getPersonName() + " at position " + ball.getPosition() + ".");
 				return false;
 			}
 		}
@@ -88,7 +88,7 @@ public class CrossEvent extends Event {
 	}
 	
 	private int crossDirection(Ball ball, Match match) {
-		if(ball.getPlayerWithBall().getCurrentTeamID() == match.getHomeTeamId()) {
+		if(ball.getPlayerWithBall().getTeam().getId() == match.getHomeTeam().getId()) {
 			return -1;
 		}
 		return 1;
@@ -111,11 +111,11 @@ public class CrossEvent extends Event {
 		
 		if (avgAttack*chance > avgDefend) {
 			ball.setPlayerWithBall(attacker);
-			System.out.println(attacker.getName() + " wins the header and directs the ball towards the goal!");
+			System.out.println(attacker.getPersonName() + " wins the header and directs the ball towards the goal!");
 			return handleShotOnGoal(ball, attacker, goalkeeper, match);
 		} else {
 			ball.setPlayerWithBall(defender);
-			System.out.println(defender.getName() + " wins the header and clears the ball away!");
+			System.out.println(defender.getPersonName() + " wins the header and clears the ball away!");
 			return false;
 		}
 	}
@@ -136,16 +136,16 @@ public class CrossEvent extends Event {
 		
 		
 		if (avgShot*chance > avgSave) {
-			System.out.println("Goal! " + attacker.getName() + " scores a header!");
+			System.out.println("Goal! " + attacker.getPersonName() + " scores a header!");
 			ball.setPosition(0);
 			return true;
 		} else {
-			System.out.println(goalkeeper.getName() + " makes a great save against a header!");
+			System.out.println(goalkeeper.getPersonName() + " makes a great save against a header!");
 			ball.setPlayerWithBall(goalkeeper);
-			if(goalkeeper.getCurrentTeamID() == match.getHomeTeamId()) {
+			if(goalkeeper.getTeam().getId() == match.getHomeTeam().getId()) {
 				ball.setPosition(50);
 			}
-			if(goalkeeper.getCurrentTeamID() == match.getAwayTeamId()) {
+			if(goalkeeper.getTeam().getId() == match.getAwayTeam().getId()) {
 				ball.setPosition(-50);
 			}
 			return false;

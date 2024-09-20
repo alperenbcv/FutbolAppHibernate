@@ -21,8 +21,8 @@ public class MatchEngine {
 		
 		
 		Ball ball = new Ball();
-		Team homeTeam = DatabaseModels.teamDB.findByID(match.getHomeTeamId()).get();
-		Team awayTeam = DatabaseModels.teamDB.findByID(match.getAwayTeamId()).get();
+		Team homeTeam = DatabaseModels.teamDB.findByID(match.getHomeTeam().getId()).get();
+		Team awayTeam = DatabaseModels.teamDB.findByID(match.getAwayTeam().getId()).get();
 		
 		// Maç başlar, top orta sahada başlar
 		ball.setPosition(0);
@@ -35,7 +35,7 @@ public class MatchEngine {
 			
 			int random = this.random.nextInt(1, 101);
 			
-			if (!ball.getPlayerWithBall().getCurrentTeamID().equals(attackingTeam.getId())) {
+			if (!ball.getPlayerWithBall().getTeam().getId().equals(attackingTeam.getId())) {
 				Team temp = attackingTeam;
 				attackingTeam = defendingTeam;
 				defendingTeam = temp;
@@ -49,7 +49,7 @@ public class MatchEngine {
 					if(ball.getPlayerWithBall().getPlayersPosition()==EPosition.GK) {
 						ball.setPlayerWithBall(selectRandomDefender(homeTeam));
 						ball.setPosition(40);
-						System.out.println("GK gives the ball to closest defender. "+ ball.getPlayerWithBall().getName() + " is at " + ball.getPosition());
+						System.out.println("GK gives the ball to closest defender. "+ ball.getPlayerWithBall().getPersonName() + " is at " + ball.getPosition());
 						continue;
 					}
 				}
@@ -64,7 +64,7 @@ public class MatchEngine {
 					if(ball.getPlayerWithBall().getPlayersPosition()==EPosition.GK) {
 						ball.setPlayerWithBall(selectRandomDefender(awayTeam));
 						ball.setPosition(-40);
-						System.out.println("GK gives the ball to closest defender. "+ ball.getPlayerWithBall().getName() + " is at " + ball.getPosition());
+						System.out.println("GK gives the ball to closest defender. "+ ball.getPlayerWithBall().getPersonName() + " is at " + ball.getPosition());
 						continue;
 					}
 				}
@@ -142,7 +142,7 @@ public class MatchEngine {
 	private void oneOnOne (Match match, Ball ball, Team attackingTeam, Team defendingTeam) {
 		ShootEvent shootEvent = new ShootEvent();
 		if (shootEvent.shootEvent(ball, ball.getPlayerWithBall(), selectGoalkeeper(defendingTeam), match)) {
-			if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId()){
+			if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId()){
 				match.setHomeTeamScore(match.getHomeTeamScore() + 1);
 				ball.setPosition(0);
 				ball.setPlayerWithBall(selectRandomAttacker(defendingTeam));
@@ -167,7 +167,7 @@ public class MatchEngine {
 		else {
 			ShootEvent shootEvent = new ShootEvent();
 			if (shootEvent.shootEvent(ball, ball.getPlayerWithBall(), selectGoalkeeper(defendingTeam), match)) {
-				if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId()){
+				if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId()){
 					match.setHomeTeamScore(match.getHomeTeamScore() + 1);
 					ball.setPosition(0);
 					ball.setPlayerWithBall(selectRandomAttacker(defendingTeam));
@@ -201,7 +201,7 @@ public class MatchEngine {
 			CrossEvent crossEvent = new CrossEvent();
 			if (crossEvent.crossEvent20m(ball, selectRandomSTPlayer(attackingTeam),
 			                             selectRandomBackPlayer(defendingTeam), selectRandomCBPlayer(defendingTeam), selectGoalkeeper(defendingTeam), match)) {
-				if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId()){
+				if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId()){
 					match.setHomeTeamScore(match.getHomeTeamScore() + 1);
 					ball.setPosition(0);
 					ball.setPlayerWithBall(selectRandomAttacker(defendingTeam));
@@ -218,7 +218,7 @@ public class MatchEngine {
 		else{
 			ShootEvent shootEvent = new ShootEvent();
 			if (shootEvent.shootEvent(ball, ball.getPlayerWithBall(), selectGoalkeeper(defendingTeam), match)) {
-				if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId()){
+				if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId()){
 					match.setHomeTeamScore(match.getHomeTeamScore() + 1);
 					ball.setPosition(0);
 					ball.setPlayerWithBall(selectRandomAttacker(defendingTeam));
@@ -252,7 +252,7 @@ public class MatchEngine {
 			if(crossEvent.crossEvent20m(ball, selectRandomSTPlayer(attackingTeam),
 			                            selectRandomBackPlayer(defendingTeam), selectRandomCBPlayer(defendingTeam)
 					, selectGoalkeeper(defendingTeam), match)) {
-				if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId()){
+				if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId()){
 					match.setHomeTeamScore(match.getHomeTeamScore() + 1);
 					ball.setPosition(0);
 					ball.setPlayerWithBall(selectRandomAttacker(defendingTeam));
@@ -269,7 +269,7 @@ public class MatchEngine {
 			if(crossEvent.crossEvent30m(ball, selectRandomSTPlayer(attackingTeam),
 			                            selectRandomBackPlayer(defendingTeam), selectRandomCBPlayer(defendingTeam)
 					, selectGoalkeeper(defendingTeam), match)) {
-				if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId()){
+				if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId()){
 					match.setHomeTeamScore(match.getHomeTeamScore() + 1);
 					ball.setPosition(0);
 					ball.setPlayerWithBall(selectRandomAttacker(defendingTeam));

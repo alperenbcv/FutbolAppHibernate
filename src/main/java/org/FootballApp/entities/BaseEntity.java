@@ -1,28 +1,35 @@
 package org.FootballApp.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDate;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
-public abstract class BaseEntity {
+@SuperBuilder
+public class BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Integer id;
-	@ColumnDefault("1")
-	public  Integer state;
-	@ColumnDefault("CURRENT_DATE")
+	public  Integer state=1;
 	public LocalDate createdAt;
-	@ColumnDefault("CURRENT_DATE")
 	public LocalDate updatedAt;
 	
-	public BaseEntity() {
+	@PrePersist
+	public void prePersist() {
+		this.createdAt = LocalDate.now();
+		this.updatedAt = LocalDate.now();
 	}
 	
-	public Integer getId() {
-		return id;
+	@PreUpdate
+	public void preUpdate() {
+		this.updatedAt = LocalDate.now();
 	}
-	
-	
 }

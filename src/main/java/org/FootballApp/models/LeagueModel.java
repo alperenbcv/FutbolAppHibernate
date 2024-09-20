@@ -63,7 +63,7 @@ public class LeagueModel {
 			Integer rank = entry.getKey();
 			TeamStats stats = entry.getValue();
 			String teamName =
-					DatabaseModels.teamDB.findByID(stats.getTeamID()).map(Team::getTeamName).orElse("Unknown");
+					DatabaseModels.teamDB.findByID(stats.getTeam().getId()).map(Team::getTeamName).orElse("Unknown");
 			
 			if ("BYE".equalsIgnoreCase(teamName)) {
 				continue;
@@ -86,9 +86,9 @@ public class LeagueModel {
 			if (match.getStatus() == EMatchStatus.PLAYED) {
 				
 				String homeTeamName =
-						DatabaseModels.teamDB.findByID(match.getHomeTeamId()).map(Team::getTeamName).orElse("Unknown");
+						DatabaseModels.teamDB.findByID(match.getHomeTeam().getId()).map(Team::getTeamName).orElse("Unknown");
 				String awayTeamName =
-						DatabaseModels.teamDB.findByID(match.getAwayTeamId()).map(Team::getTeamName).orElse("Unknown");
+						DatabaseModels.teamDB.findByID(match.getAwayTeam().getId()).map(Team::getTeamName).orElse("Unknown");
 				
 				
 				System.out.println("Date: " + match.getMatchDate() + " | " + homeTeamName + " " + match.getHomeTeamScore() + " - " + match.getAwayTeamScore() + " " + awayTeamName);
@@ -143,7 +143,7 @@ public class LeagueModel {
 		int matchWeek = 1;
 		LocalDate currentWeekStartDate = seasonStartDate;
 		
-		for (Match match : getMatchList().stream().filter(match -> match.getLeagueId() == leagueID).toList()) {
+		for (Match match : getMatchList().stream().filter(match -> match.getLeague().getId() == leagueID).toList()) {
 			while (match.getMatchDate().isAfter(currentWeekStartDate.plusDays(6))) {
 				matchWeek++;
 				currentWeekStartDate = currentWeekStartDate.plusWeeks(1);
@@ -155,9 +155,9 @@ public class LeagueModel {
 			System.out.println("Week " + entry.getKey() + ":");
 			for (Match match : entry.getValue()) {
 				String homeTeamName =
-						DatabaseModels.teamDB.findByID(match.getHomeTeamId()).map(Team::getTeamName).orElse("Unknown");
+						DatabaseModels.teamDB.findByID(match.getHomeTeam().getId()).map(Team::getTeamName).orElse("Unknown");
 				String awayTeamName =
-						DatabaseModels.teamDB.findByID(match.getAwayTeamId()).map(Team::getTeamName).orElse("Unknown");
+						DatabaseModels.teamDB.findByID(match.getAwayTeam().getId()).map(Team::getTeamName).orElse("Unknown");
 				System.out.println("  " + match.getMatchDate() + ": " + homeTeamName + " vs " + awayTeamName);
 			}
 		}

@@ -1,47 +1,60 @@
 package org.FootballApp.entities;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.FootballApp.entities.observerPatterns.Observable;
 import org.FootballApp.entities.observerPatterns.Observer;
 import org.FootballApp.enums.EMatchStatus;
 import org.FootballApp.models.DatabaseModels;
 import org.FootballApp.utility.DataIO;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.mapping.ToOne;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class TeamStats extends BaseEntity implements Observable {
-	private List<Observer> observers = new ArrayList<>();
-	private static Integer tableCounter=0;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
+@Entity
+@Table(name="tblteamstats")
+public class TeamStats extends BaseEntity {
 	
-	
+	@ColumnDefault("CURRENT_DATE")
 	private LocalDate lastUpdateDate;
-	private Integer teamLeagueID;
-	private Integer teamID;
-	private Integer totalPoint;
-	private Integer goalScored;
-	private Integer goalConceded;
-	private Integer average;
-	private Integer gamesPlayed;
-	private Integer gamesWon;
-	private Integer gamesLost;
-	private Integer gamesDrawn;
-	
+	@ManyToOne
+	@JoinColumn(name = "team_league_id", referencedColumnName = "id")
+	private League teamLeague;
+	@OneToOne
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    private Team team;
+	private Integer totalPoint=0;
+	private Integer goalScored=0;
+	private Integer goalConceded=0;
+	private Integer average=0;
+	private Integer gamesPlayed=0;
+	private Integer gamesWon=0;
+	private Integer gamesLost=0;
+	private Integer gamesDrawn=0;
 	
 	public TeamStats(Integer teamID) {
-		this.teamID = teamID;
-		this.teamLeagueID = leagueIDFinder();
-		this.gamesDrawn = 0;
-		this.gamesLost = 0;
-		this.gamesWon = 0;
-		this.goalConceded = 0;
-		this.goalScored = 0;
-		this.average = 0;
-		this.gamesPlayed = 0;
-		this.totalPoint = 0;
-		this.lastUpdateDate = LocalDate.of(2024, 8, 22);
-		DatabaseModels.tsDB.save(this);
+	}
+	
+	@Override
+	public void prePersist() {
+		this.lastUpdateDate = LocalDate.now();
+	}
+	
+	@Override
+	public void preUpdate() {
+		this.lastUpdateDate = LocalDate.now();
 	}
 	
 	public void teamStatUpdater(LocalDate currentDate) {
@@ -51,7 +64,6 @@ public class TeamStats extends BaseEntity implements Observable {
 			teamAverageCalculator();
 			calculateGamesPlayed();
 			lastUpdateDate = currentDate;
-			notifyObservers();
 		}
 	}
 	
@@ -63,19 +75,19 @@ public class TeamStats extends BaseEntity implements Observable {
 	public static void teamStatGenerator(){
 		List<Team> teams = DatabaseModels.teamDB.listAll();
 		for(Team team:teams){
-			new TeamStats(team.getId());
+			new TeamStats();
 		}
 	}
 	
 	public List<Match> teamsMatchGetter(){
-		List<Match> byTeamID = DatabaseModels.matchDB.findByTeamID(this.teamID);
+		List<Match> byTeamID = DatabaseModels.matchDB.findByTeamID(this.team.getId());
 		List<Match> playedGames = byTeamID.stream().filter(match -> match.getStatus().equals(EMatchStatus.PLAYED)).toList();
 		return playedGames;
 	}
 	
 	
 	public Integer leagueIDFinder(){
-		Optional<Team> byID = DatabaseModels.teamDB.findByID(this.teamID);
+		Optional<Team> byID = DatabaseModels.teamDB.findByID(this.team.getId());
 		Team team = byID.get();
 		return team.getLeagueID();
 	}
@@ -89,11 +101,11 @@ public class TeamStats extends BaseEntity implements Observable {
 		                                            .filter(match -> match.getMatchDate().equals(currentDate))
 		                                            .toList();
 		for (Match match : playedGames) {
-			if (match.getHomeTeamId() == this.teamID) {
+			if (match.getHomeTeam().getId() == this.team.getId()) {
 				this.goalScored += match.getHomeTeamScore();
 				this.goalConceded += match.getAwayTeamScore();
 			}
-			if (match.getAwayTeamId() == this.teamID) {
+			if (match.getAwayTeam().getId() == this.team.getId()) {
 				this.goalScored += match.getAwayTeamScore();
 				this.goalConceded += match.getHomeTeamScore();
 			}
@@ -105,7 +117,7 @@ public class TeamStats extends BaseEntity implements Observable {
 		                                            .filter(match -> match.getMatchDate().equals(currentDate))
 		                                            .toList();
 		for (Match match : playedGames) {
-			if (match.getHomeTeamId() == this.teamID) {
+			if (match.getHomeTeam().getId() == this.team.getId()) {
 				if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
 					this.totalPoint += 3;
 					this.gamesWon++;
@@ -116,7 +128,7 @@ public class TeamStats extends BaseEntity implements Observable {
 					this.gamesLost++;
 				}
 			}
-			if (match.getAwayTeamId() == this.teamID) {
+			if (match.getAwayTeam().getId() == this.team.getId()) {
 				if (match.getAwayTeamScore() > match.getHomeTeamScore()) {
 					this.totalPoint += 3;
 					this.gamesWon++;
@@ -130,109 +142,4 @@ public class TeamStats extends BaseEntity implements Observable {
 		}
 	}
 	
-	
-	public LocalDate getLastUpdateDate() {
-		return lastUpdateDate;
-	}
-	
-	public void setLastUpdateDate(LocalDate lastUpdateDate) {
-		this.lastUpdateDate = lastUpdateDate;
-	}
-	
-	public Integer getTeamID() {
-		return teamID;
-	}
-	
-	public void setTeamID(Integer teamID) {
-		this.teamID = teamID;
-	}
-	
-	public Integer getTotalPoint() {
-		return totalPoint;
-	}
-	
-	public void setTotalPoint(Integer totalPoint) {
-		this.totalPoint = totalPoint;
-	}
-	
-	public Integer getGoalScored() {
-		return goalScored;
-	}
-	
-	public void setGoalScored(Integer goalScored) {
-		this.goalScored = goalScored;
-	}
-	
-	public Integer getGoalConceded() {
-		return goalConceded;
-	}
-	
-	public void setGoalConceded(Integer goalConceded) {
-		this.goalConceded = goalConceded;
-	}
-	
-	public Integer getAverage() {
-		return average;
-	}
-	
-	public void setAverage(Integer average) {
-		this.average = average;
-	}
-	
-	public Integer getGamesPlayed() {
-		return gamesPlayed;
-	}
-	
-	public void setGamesPlayed(Integer gamesPlayed) {
-		this.gamesPlayed = gamesPlayed;
-	}
-	
-	public Integer getGamesWon() {
-		return gamesWon;
-	}
-	
-	public void setGamesWon(Integer gamesWon) {
-		this.gamesWon = gamesWon;
-	}
-	
-	public Integer getGamesLost() {
-		return gamesLost;
-	}
-	
-	public void setGamesLost(Integer gamesLost) {
-		this.gamesLost = gamesLost;
-	}
-	
-	public Integer getGamesDrawn() {
-		return gamesDrawn;
-	}
-	
-	public void setGamesDrawn(Integer gamesDrawn) {
-		this.gamesDrawn = gamesDrawn;
-	}
-	
-	public Integer getTeamLeagueID() {
-		return teamLeagueID;
-	}
-	
-	public void setTeamLeagueID(Integer teamLeagueID) {
-		this.teamLeagueID = teamLeagueID;
-	}
-	
-	@Override
-	public void addObserver(Observer observer) {
-		observers.add(observer);
-	}
-	
-	@Override
-	public void removeObserver(Observer observer) {
-		observers.remove(observer);
-	}
-	
-	@Override
-	public void notifyObservers() {
-		for (Observer observer : observers) {
-			DataIO.getInstance().update(this);
-		}
-	}
 }

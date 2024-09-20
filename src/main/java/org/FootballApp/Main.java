@@ -3,11 +3,92 @@ package org.FootballApp;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import org.FootballApp.entities.*;
+import org.FootballApp.entities.attributes.GKAttributes;
+import org.FootballApp.entities.attributes.MentalAttributes;
+import org.FootballApp.entities.attributes.PhysicalAttributes;
+import org.FootballApp.entities.attributes.TechnicalAttributes;
+import org.FootballApp.enums.EMatchStatus;
+import org.FootballApp.enums.EPosition;
+import org.FootballApp.enums.ERegion;
+import org.FootballApp.models.DatabaseModels;
+
+import java.time.LocalDate;
+import java.util.*;
 
 public class Main {
+	static EntityManagerFactory entityManagerFactory;
+	static EntityManager entityManager;
+	
 	public static void main(String[] args) {
-		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("pu_hibernate");
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		entityManagerFactory = Persistence.createEntityManagerFactory("pu_hibernate");
+		entityManager = entityManagerFactory.createEntityManager();
+		
+		
+	}
+	
+	
+	public static void saveLeague(League league) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(league);
+		entityManager.getTransaction().commit();
+	}
+	
+	public static void saveTeams(Team team) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(team);
+		entityManager.getTransaction().commit();
+	}
+	
+	public static void saveMatch(Match match) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(match);
+		entityManager.getTransaction().commit();
+	}
+	
+	public static void savePlayer(Player player) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(player);
+		entityManager.getTransaction().commit();
+	}
+	
+	public static void saveTeamStats(TeamStats teamStats) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(teamStats);
+		entityManager.getTransaction().commit();
+	}
+	
+	public static void saveManager(Manager manager) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(manager);
+		entityManager.getTransaction().commit();
+	}
+	
+	public static void saveGKAtt(GKAttributes gkAtt) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(gkAtt);
+		entityManager.getTransaction().commit();
+	}
+	
+	public static void saveMental(MentalAttributes mentalAttributes) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(mentalAttributes);
+		entityManager.getTransaction().commit();
+	}
+	
+	public static void savePhysical(PhysicalAttributes physicalAttributes) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(physicalAttributes);
+		entityManager.getTransaction().commit();
+	}
+	
+	public static void saveTechnical(TechnicalAttributes technicalAttributes) {
+		entityManager.getTransaction().begin();
+		entityManager.persist(technicalAttributes);
+		entityManager.getTransaction().commit();
+	}
+}
+
 
 //	generator();
 //		Match match1 = new Match(1,2,LocalDate.now(), EMatchStatus.SCHEDULED,1);
@@ -26,9 +107,8 @@ public class Main {
 //		Integer finishing = playerTechnicalAttributes.getFinishing();
 //		System.out.println(finishing);
 
-//		DataIO.savePlayersToFile();
-	
-	}
+//		DataIO.savePlayersToFile(); }
+
 
 //	public static void simulateGames(Match match) {
 //					MatchEngine matchEngine = new MatchEngine();
@@ -36,7 +116,6 @@ public class Main {
 //					match.setStatus(EMatchStatus.PLAYED);
 //
 //			}
-
 
 
 //	public static void generator(){
@@ -234,4 +313,3 @@ public class Main {
 //
 //
 //	}
-}

@@ -43,7 +43,7 @@ public class DataIO {
 		readTeamStats();
 //		TeamStats.teamStatGenerator();
 //		saveTeamStatsToFile();
-		initializeObservers();
+//		initializeObservers();
 //	    	generateFixtures();
 //			savePlayersToFile();
 //			saveTeamsToFile();
@@ -59,11 +59,11 @@ public class DataIO {
 	}
 	
 	
-	private static void initializeObservers() {
-		ObserverInitializer observerInitializer = new ObserverInitializer(DatabaseModels.getInstance());
-		
-		observerInitializer.initializeObservers();
-	}
+//	private static void initializeObservers() {
+//		ObserverInitializer observerInitializer = new ObserverInitializer(DatabaseModels.getInstance());
+//
+//		observerInitializer.initializeObservers();
+//	}
 	
 	
 	public static int totalEntities() {
@@ -83,9 +83,9 @@ public class DataIO {
 	public static void saveTeamStatsToFile() {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("ts.txt"))) {
 			for (TeamStats teamStats : DatabaseModels.tsDB.findAll().get()) {
-				writer.write(teamStats.getTeamID() + ","
+				writer.write(teamStats.getTeam().getId() + ","
 						             + teamStats.getAverage() + ","
-						             + teamStats.getTeamLeagueID() + ","
+			//			             + teamStats.getTeamLeagueID() + ","
 						             + teamStats.getGamesPlayed() + ","
 						             + teamStats.getGamesDrawn() + ","
 						             + teamStats.getGamesWon() + ","
@@ -123,7 +123,7 @@ public class DataIO {
 				
 				TeamStats ts=new TeamStats(teamID);
 				ts.setAverage(average);
-				ts.setTeamLeagueID(leagueID);
+	//			ts.setTeamLeagueID(leagueID);
 				ts.setGamesDrawn(gamesDrawn);
 				ts.setGamesLost(gamesLost);
 				ts.setGamesPlayed(gamesPlayed);
@@ -164,7 +164,7 @@ public class DataIO {
 				
 				TeamStats ts=new TeamStats(teamID);
 				ts.setAverage(average);
-				ts.setTeamLeagueID(leagueID);
+	//			ts.setTeam(leagueID);
 				ts.setGamesDrawn(gamesDrawn);
 				ts.setGamesLost(gamesLost);
 				ts.setGamesPlayed(gamesPlayed);
@@ -186,11 +186,11 @@ public class DataIO {
 	public static void saveMatchesToFile() {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("matches.txt"))) {
 			for (Match match : DatabaseModels.matchDB.listAll()) {
-				writer.write(match.getHomeTeamId() + ","
-						             + match.getAwayTeamId() + ","
+				writer.write(match.getHomeTeam().getId() + ","
+						             + match.getAwayTeam().getId() + ","
 						             + match.getMatchDate() + ","
 						             + match.getStatus() + ","
-						             + match.getLeagueId() + ","
+						             + match.getLeague().getId() + ","
 						             + match.getHomeTeamScore() + ","
 						             + match.getAwayTeamScore() + ","
 						             + "\n");
@@ -326,7 +326,7 @@ public class DataIO {
 	public static void saveManagersToFile() {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("managers.txt"))) {
 			for (Manager manager : DatabaseModels.managerDB.listAll()) {
-				writer.write(manager.getCurrentTeamID() + "," + manager.getName() + "," + manager.getSurName() + "," + manager.getAge() + "," + manager.getNationality() + "," + manager.getManagerUserName() + "," + manager.getManagerPassword() + "," + "\n");
+				writer.write(manager.getTeam().getId() + "," + manager.getPersonName() + "," + manager.getPersonSurname() + "," + manager.getPersonAge() + "," + manager.getPersonNationality() + "," + manager.getManagerUserName() + "," + manager.getManagerPassword() + "," + "\n");
 				
 			}
 		}
@@ -340,9 +340,9 @@ public class DataIO {
 			for (Player player : DatabaseModels.playerDB.listAll()) {
 				if (player.getPlayersPosition() == EPosition.GK) { // Kaleci kontrolü
 					GKAttributes gk = player.getGkAttributes();
-					writer.write(player.getName() + "," + player.getSurName() + "," + player.getAge() + "," + player.getNationality() + ","
+					writer.write(player.getPersonName() + "," + player.getPersonSurname() + "," + player.getPersonAge() + "," + player.getPersonNationality() + ","
 							             + gk.getReflexes() + "," + gk.getPositioning() + "," + gk.getDiving() + "," + gk.getOneOnOne() + ","
-							             + player.getCurrentTeamID() + "," + player.getPlayerValue() + "," + player.getPlayerWage() + "," + player.getPlayersPosition() + "," + "\n");
+							             + player.getTeam().getId() + "," + player.getPlayerValue() + "," + player.getPlayerWage() + "," + player.getPlayersPosition() + "," + "\n");
 				} else {
 					TechnicalAttributes ta = player.getPlayerTechnicalAttributes();
 					MentalAttributes ma = player.getPlayerMentalAttributes();
@@ -350,13 +350,13 @@ public class DataIO {
 					
 					// Null kontrolü
 					if (ta != null && ma != null && pa != null) {
-						writer.write(player.getName() + "," + player.getSurName() + "," + player.getAge() + "," + player.getNationality() + ","
+						writer.write(player.getPersonName() + "," + player.getPersonSurname() + "," + player.getPersonAge() + "," + player.getPersonNationality() + ","
 								             + ta.getFinishing() + "," + ta.getPass() + "," + ta.getDribbling() + "," + ta.getTackle() + "," + ta.getShotPower() + "," + ta.getCrossing() + "," + ta.getHeader() + "," + ta.getPositioning() + "," + ta.getFirstTouch() + ","
 								             + ma.getComposure() + "," + ma.getVision() + "," + ma.getDecisionMaking() + ","
 								             + pa.getStamina() + "," + pa.getSpeed() + "," + pa.getStrength() + "," + pa.getJumping() + "," + pa.getHeight() + ","
-								             + player.getCurrentTeamID() + "," + player.getPlayerValue() + "," + player.getPlayerWage() + "," + player.getPlayersPosition() + "," + "\n");
+								             + player.getTeam().getId() + "," + player.getPlayerValue() + "," + player.getPlayerWage() + "," + player.getPlayersPosition() + "," + "\n");
 					} else {
-						System.err.println("Error: Player " + player.getName() + " has missing attributes.");
+						System.err.println("Error: Player " + player.getPersonName() + " has missing attributes.");
 					}
 				}
 			}

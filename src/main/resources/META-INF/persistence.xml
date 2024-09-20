@@ -7,8 +7,17 @@
     <persistence-unit name="pu_hibernate">
 
         <class>org.FootballApp.entities.BaseEntity</class>
+        <class>org.FootballApp.entities.Person</class>
         <class>org.FootballApp.entities.League</class>
         <class>org.FootballApp.entities.Team</class>
+        <class>org.FootballApp.entities.Match</class>
+        <class>org.FootballApp.entities.Manager</class>
+        <class>org.FootballApp.entities.Player</class>
+        <class>org.FootballApp.entities.TeamStats</class>
+        <class>org.FootballApp.entities.attributes.GKAttributes</class>
+        <class>org.FootballApp.entities.attributes.MentalAttributes</class>
+        <class>org.FootballApp.entities.attributes.PhysicalAttributes</class>
+        <class>org.FootballApp.entities.attributes.TechnicalAttributes</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver"

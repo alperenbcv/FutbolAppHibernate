@@ -42,8 +42,8 @@ public class FixtureModel {
 		for (Map.Entry<Integer, List<Match>> entry : matchesByWeek.entrySet()) {
 			System.out.println("Week " + entry.getKey() + ":");
 			for (Match match : entry.getValue()) {
-				String homeTeamName = DatabaseModels.teamDB.findByID(match.getHomeTeamId()).map(Team::getTeamName).orElse("Unknown");
-				String awayTeamName = DatabaseModels.teamDB.findByID(match.getAwayTeamId()).map(Team::getTeamName).orElse("Unknown");
+				String homeTeamName = DatabaseModels.teamDB.findByID(match.getHomeTeam().getId()).map(Team::getTeamName).orElse("Unknown");
+				String awayTeamName = DatabaseModels.teamDB.findByID(match.getAwayTeam().getId()).map(Team::getTeamName).orElse("Unknown");
 				System.out.println("  " + match.getMatchDate() + ": " + homeTeamName + " vs " + awayTeamName);
 			}
 		}
@@ -77,10 +77,10 @@ public class FixtureModel {
 		for (Map.Entry<Integer, List<Match>> entry : matchesByWeek.entrySet()) {
 			System.out.println("Week " + entry.getKey() + ":");
 			for (Match match : entry.getValue()) {
-				String homeTeamName = DatabaseModels.teamDB.findByID(match.getHomeTeamId()).map(Team::getTeamName).orElse("Unknown");
-				String awayTeamName = DatabaseModels.teamDB.findByID(match.getAwayTeamId()).map(Team::getTeamName).orElse("Unknown");
+				String homeTeamName = DatabaseModels.teamDB.findByID(match.getHomeTeam().getId()).map(Team::getTeamName).orElse("Unknown");
+				String awayTeamName = DatabaseModels.teamDB.findByID(match.getAwayTeam().getId()).map(Team::getTeamName).orElse("Unknown");
 				
-				if (match.getHomeTeamId() == team.get().getId() || match.getAwayTeamId() == team.get().getId()) {
+				if (match.getHomeTeam().getId() == team.get().getId() || match.getAwayTeam().getId() == team.get().getId()) {
 					System.out.println("  " + match.getMatchDate() + ": " + homeTeamName + " vs " + awayTeamName);
 				}
 			}

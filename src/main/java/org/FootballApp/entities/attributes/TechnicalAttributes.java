@@ -1,9 +1,19 @@
 package org.FootballApp.entities.attributes;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.FootballApp.entities.BaseEntity;
 
+@Data
+@SuperBuilder
+@Entity
+@Table(name = "tbltechnicalattributes")
 public class TechnicalAttributes extends BaseEntity implements PlayerAttributes {
-	private static Integer technicalCount=0;
 	
 	private Integer finishing;
 	private Integer pass;
@@ -26,6 +36,10 @@ public class TechnicalAttributes extends BaseEntity implements PlayerAttributes 
 		this.header = header;
 		this.positioning = positioning;
 		this.firstTouch= firstTouch;
+	}
+	
+	public TechnicalAttributes() {
+	
 	}
 	
 	public Integer getFirstTouch() {

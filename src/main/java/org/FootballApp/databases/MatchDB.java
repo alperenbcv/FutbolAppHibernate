@@ -26,7 +26,7 @@ public class MatchDB extends DatabaseManager<Match> {
 	public List<Match> findByLeagueID(Integer leagueID) {
 		List<Match> matchList = new ArrayList<>();
 		for (Match match : veriListesi) {
-			if (match.getLeagueId() == leagueID) {
+			if (match.getLeague().getId() == leagueID) {
 				matchList.add(match);
 			}
 		}
@@ -36,7 +36,7 @@ public class MatchDB extends DatabaseManager<Match> {
 	public List<Match> findByTeamID(Integer teamID) {
 		List<Match> matchList = new ArrayList<>();
 		for (Match match : veriListesi) {
-			if (match.getHomeTeamId() == teamID || match.getAwayTeamId() == teamID) {
+			if (match.getHomeTeam().getId() == teamID || match.getAwayTeam().getId() == teamID) {
 				matchList.add(match);
 			}
 		}
@@ -46,7 +46,7 @@ public class MatchDB extends DatabaseManager<Match> {
 	public List<Match> findByTeamName(String teamName) {
 		List<Match> matchList = new ArrayList<>();
 		for (Match match : veriListesi) {
-			if (match.getHomeTeamId() == DatabaseModels.teamDB.findByName(teamName).get().getId() || match.getAwayTeamId() == DatabaseModels.teamDB.findByName(teamName).get().getId()) {
+			if (match.getHomeTeam().getId() == DatabaseModels.teamDB.findByName(teamName).get().getId() || match.getAwayTeam().getId() == DatabaseModels.teamDB.findByName(teamName).get().getId()) {
 				matchList.add(match);
 			}
 		}

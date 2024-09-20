@@ -179,12 +179,12 @@ public class MatchModule {
 		else {
 			
 			for(Match match:matchesOfTheDay){
-				if(match.getHomeTeamId() == DatabaseModels.teamDB.findByName("BYE").get().getId()){
+				if(match.getHomeTeam().getId() == DatabaseModels.teamDB.findByName("BYE").get().getId()){
 					match.setHomeTeamScore(0);
 					match.setAwayTeamScore(3);
 					match.setStatus(EMatchStatus.PLAYED);
 				}
-				else if(match.getAwayTeamId() == DatabaseModels.teamDB.findByName("BYE").get().getId()){
+				else if(match.getAwayTeam().getId() == DatabaseModels.teamDB.findByName("BYE").get().getId()){
 					match.setHomeTeamScore(3);
 					match.setAwayTeamScore(0);
 					match.setStatus(EMatchStatus.PLAYED);

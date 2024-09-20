@@ -1,7 +1,18 @@
 package org.FootballApp.entities.attributes;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.FootballApp.entities.BaseEntity;
 
+@Data
+@SuperBuilder
+@Entity
+@Table(name = "tblphysicalattributes")
 public class PhysicalAttributes extends BaseEntity implements PlayerAttributes {
 	private static Integer physicalCount=0;
 	
@@ -17,6 +28,10 @@ public class PhysicalAttributes extends BaseEntity implements PlayerAttributes {
 		this.strength = strength;
 		this.jumping = jumping;
 		this.height = height;
+	}
+	
+	public PhysicalAttributes() {
+	
 	}
 	
 	public Integer getStamina() {

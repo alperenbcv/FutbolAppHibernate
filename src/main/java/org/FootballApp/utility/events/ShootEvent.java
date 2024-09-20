@@ -44,29 +44,29 @@ public class ShootEvent extends Event {
 				if (avgShooting*chance > avgOneOnOneGK) {
 					//gol oldu
 					ball.setPosition(0);
-					System.out.println("Goal!" + " by " + ball.getPlayerWithBall().getName() + " on one on one.");
+					System.out.println("Goal!" + " by " + ball.getPlayerWithBall().getPersonName() + " on one on one.");
 					return true;
 				}
 				else {
-					if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId()) {
+					if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId()) {
 						ball.setPosition(-50);
 						ball.setPlayerWithBall(goalkeeper);
 					}
-					if(ball.getPlayerWithBall().getCurrentTeamID()==match.getAwayTeamId()){
+					if(ball.getPlayerWithBall().getTeam().getId()==match.getAwayTeam().getId()){
 						ball.setPosition(50);
 						ball.setPlayerWithBall(goalkeeper);
 					}
-					System.out.println("Shot saved by " + goalkeeper.getName() + " on one on one.");
+					System.out.println("Shot saved by " + goalkeeper.getPersonName() + " on one on one.");
 					return false;
 				}
 			}
 			else {
-				if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId())
+				if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId())
 					ball.setPosition(-50);
-				if(ball.getPlayerWithBall().getCurrentTeamID()==match.getAwayTeamId())
+				if(ball.getPlayerWithBall().getTeam().getId()==match.getAwayTeam().getId())
 					ball.setPosition(50);
 				System.out.println("Out of the box! Shot missed by " + ball.getPlayerWithBall()
-				                                                           .getName() + " on one on one.");
+				                                                           .getPersonName() + " on one on one.");
 				ball.setPlayerWithBall(goalkeeper);
 				return false;
 			}
@@ -80,26 +80,26 @@ public class ShootEvent extends Event {
 					if (avgShooting > avgDistanceGK) {
 						//gol oldu
 						ball.setPosition(0);
-						System.out.println("Goal!" + " by " + ball.getPlayerWithBall().getName() + ".");
+						System.out.println("Goal!" + " by " + ball.getPlayerWithBall().getPersonName() + ".");
 						return true;
 					}
 					else {
 						//kaleci kurtardi
-						if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId())
+						if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId())
 							ball.setPosition(-50);
-						if(ball.getPlayerWithBall().getCurrentTeamID()==match.getAwayTeamId())
+						if(ball.getPlayerWithBall().getTeam().getId()==match.getAwayTeam().getId())
 							ball.setPosition(50);
 						ball.setPlayerWithBall(goalkeeper);
-						System.out.println("Shot saved by " + goalkeeper.getName() + ".");
+						System.out.println("Shot saved by " + goalkeeper.getPersonName() + ".");
 						return false;
 					}
 				}
 				else {
-					if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId())
+					if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId())
 						ball.setPosition(-50);
-					if(ball.getPlayerWithBall().getCurrentTeamID()==match.getAwayTeamId())
+					if(ball.getPlayerWithBall().getTeam().getId()==match.getAwayTeam().getId())
 						ball.setPosition(50);
-					System.out.println("Out of the box! Shot missed by " + ball.getPlayerWithBall().getName() + ".");
+					System.out.println("Out of the box! Shot missed by " + ball.getPlayerWithBall().getPersonName() + ".");
 					ball.setPlayerWithBall(goalkeeper);
 					
 					return false;
@@ -108,7 +108,7 @@ public class ShootEvent extends Event {
 			else {
 				//defans topu kesti
 				ball.setPlayerWithBall(defender);
-				System.out.println("Ball blocked by " + defender.getName() + " at position " + ball.getPosition());
+				System.out.println("Ball blocked by " + defender.getPersonName() + " at position " + ball.getPosition());
 				return false;
 			}
 		}
@@ -121,28 +121,28 @@ public class ShootEvent extends Event {
 					if (avgShooting*chance > avgDistanceGK) {
 						//gol oldu
 						ball.setPosition(0);
-						System.out.println("Goal!" + " by " + ball.getPlayerWithBall().getName() + " from long range.");
+						System.out.println("Goal!" + " by " + ball.getPlayerWithBall().getPersonName() + " from long range.");
 						return true;
 					}
 					else {
 						//kaleci kurtardi
 //                  BURAYA TAKIMA GORE SETPOSITION EKLENECEK -50 VEYA 50 SEKLINDE
-						if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId())
+						if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId())
 							ball.setPosition(-50);
-						if(ball.getPlayerWithBall().getCurrentTeamID()==match.getAwayTeamId())
+						if(ball.getPlayerWithBall().getTeam().getId()==match.getAwayTeam().getId())
 							ball.setPosition(50);
 						ball.setPlayerWithBall(goalkeeper);
-						System.out.println("Shot saved by " + goalkeeper.getName() + ".");
+						System.out.println("Shot saved by " + goalkeeper.getPersonName() + ".");
 						return false;
 					}
 				}
 				else {
 					//disari vurdu
-					if(ball.getPlayerWithBall().getCurrentTeamID()==match.getHomeTeamId())
+					if(ball.getPlayerWithBall().getTeam().getId()==match.getHomeTeam().getId())
 						ball.setPosition(-50);
-					if(ball.getPlayerWithBall().getCurrentTeamID()==match.getAwayTeamId())
+					if(ball.getPlayerWithBall().getTeam().getId()==match.getAwayTeam().getId())
 						ball.setPosition(50);
-					System.out.println("Out of the box! Shot missed by " + ball.getPlayerWithBall().getName() + ".");
+					System.out.println("Out of the box! Shot missed by " + ball.getPlayerWithBall().getPersonName() + ".");
 					ball.setPlayerWithBall(goalkeeper);
 					return false;
 				}
@@ -150,7 +150,7 @@ public class ShootEvent extends Event {
 			else {
 				//defans topu kesti
 				ball.setPlayerWithBall(defender);
-				System.out.println("Ball blocked by " + defender.getName() + " at position " + ball.getPosition());
+				System.out.println("Ball blocked by " + defender.getPersonName() + " at position " + ball.getPosition());
 				return false;
 			}
 		}

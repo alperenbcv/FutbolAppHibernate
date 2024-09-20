@@ -21,17 +21,17 @@ public class PlayerModel {
 	
 	public PlayerModel(DatabaseModels databaseModel, Player player) {
 		this.playerID = player.getId();
-		this.playerName = player.getName();
-		this.playerSurname = player.getSurName();
-		this.playerAge = player.getAge();
-		this.playerNationality = player.getNationality();
+		this.playerName = player.getPersonName();
+		this.playerSurname = player.getPersonSurname();
+		this.playerAge = player.getPersonAge();
+		this.playerNationality = player.getPersonNationality();
 		this.playerOverallRating = player.getPlayerOverallRating();
-		this.currentTeamID = player.getCurrentTeamID();
+		this.currentTeamID = player.getTeam().getId();
 		this.playerValue = player.getPlayerValue();
 		this.playerWage = player.getPlayerWage();
 		this.playersPosition = player.getPlayersPosition();
 		this.playerTechnicalAttributes = player.getPlayerTechnicalAttributes();
-		this.playersTeam = databaseModel.teamDB.findByID(player.getCurrentTeamID()).get();
+		this.playersTeam = databaseModel.teamDB.findByID(player.getTeam().getId()).get();
 	}
 	
 	public Integer getPlayerID() {

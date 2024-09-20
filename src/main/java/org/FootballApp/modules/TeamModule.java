@@ -140,13 +140,13 @@ public class TeamModule {
 		Integer leagueID = LeagueModule.validLeagueIDControl();
 		System.out.println("\n-------------List of Teams-----------------------------------");
 		List<Team> teams = DatabaseModels.teamDB.findAllByLeagueID(leagueID);
-		Optional<Team> byID = DatabaseModels.teamDB.findByID(manager.getCurrentTeamID());
+		Optional<Team> byID = DatabaseModels.teamDB.findByID(manager.getTeam().getId());
 		if(byID.isPresent()) {
 			System.out.println("Manager's Current Team:  ");
 			System.out.println(byID.get());
 		}
 		System.out.println("\nOther Teams:  ");
-		teams.stream().filter(team -> team.getId()!= manager.getCurrentTeamID() && !(team.getTeamName().equals("BYE"))).forEach(team -> System.out.println("TeamID: " + team.getId() + " Team Name: " + team.getTeamName()));
+		teams.stream().filter(team -> team.getId()!= manager.getTeam().getId() && !(team.getTeamName().equals("BYE"))).forEach(team -> System.out.println("TeamID: " + team.getId() + " Team Name: " + team.getTeamName()));
 		displayTeamDetails();
 	}
 	

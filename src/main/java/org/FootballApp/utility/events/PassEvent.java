@@ -41,24 +41,24 @@ public class PassEvent extends Event {
 			if (passAverage*chance > defAverage) {
 				if (firstTouch > randomFactor) {
 					ball.setPlayerWithBall(ballReceiver);
-					if(ball.getPlayerWithBall().getCurrentTeamID() == match.getHomeTeamId()){
+					if(ball.getPlayerWithBall().getTeam().getId() == match.getHomeTeam().getId()){
 						ball.setPosition(ball.getPosition() - 10);
 					}
 					else{
 						ball.setPosition(ball.getPosition() + 10);
 					}
-					System.out.println("Pass succeeded! Ball is now with " + ballReceiver.getName() + " at position " + ball.getPosition());
+					System.out.println("Pass succeeded! Ball is now with " + ballReceiver.getPersonName() + " at position " + ball.getPosition());
 					return true;
 				}
 				else {
 					ball.setPlayerWithBall(defender);
-					System.out.println("Pass failed! " + ballReceiver.getName() + " couldn't control the ball..." + " Ball is" + " " + "now with the" + defender.getName() + " at position " + ball.getPosition() + ".");
+					System.out.println("Pass failed! " + ballReceiver.getPersonName() + " couldn't control the ball..." + " Ball is" + " " + "now with the" + defender.getPersonName() + " at position " + ball.getPosition() + ".");
 					return false;
 				}
 			}
 			else {
 				ball.setPlayerWithBall(defender);
-				System.out.println("Pass intercepted by " + defender.getName() + "! Ball is now with the" + defender.getName() + " at position " + ball.getPosition() + ".");
+				System.out.println("Pass intercepted by " + defender.getPersonName() + "! Ball is now with the" + defender.getPersonName() + " at position " + ball.getPosition() + ".");
 				return false;
 			}
 		}
@@ -95,25 +95,25 @@ public class PassEvent extends Event {
 			if (passAverage*chance > defAverage) {
 				if (firstTouch > randomFactor) {
 					ball.setPlayerWithBall(ballReceiver);
-					if(ball.getPlayerWithBall().getCurrentTeamID() == match.getHomeTeamId()){
+					if(ball.getPlayerWithBall().getTeam().getId() == match.getHomeTeam().getId()){
 						ball.setPosition(ball.getPosition() - 20);
 					}
 					else{
 						ball.setPosition(ball.getPosition() + 20);
 					}
 					//Top 20 metre ilerler
-					System.out.println("Pass succeeded! Ball is now with " + ballReceiver.getName() + " at position " + ball.getPosition());
+					System.out.println("Pass succeeded! Ball is now with " + ballReceiver.getPersonName() + " at position " + ball.getPosition());
 					return true;
 				}
 				else {
 					ball.setPlayerWithBall(defender);
-					System.out.println("Pass failed! " + ballReceiver.getName() + " couldn't control the ball..." + " Ball is" + " " + "now with the" + defender.getName() + " at position " + ball.getPosition() + ".");
+					System.out.println("Pass failed! " + ballReceiver.getPersonName() + " couldn't control the ball..." + " Ball is" + " " + "now with the" + defender.getPersonName() + " at position " + ball.getPosition() + ".");
 					return false;
 				}
 			}
 			else {
 				ball.setPlayerWithBall(defender);
-				System.out.println("Pass intercepted by " + defender.getName() + "! Ball is now with the" + defender.getName() + " at position " + ball.getPosition() + ".");
+				System.out.println("Pass intercepted by " + defender.getPersonName() + "! Ball is now with the" + defender.getPersonName() + " at position " + ball.getPosition() + ".");
 				return false;
 			}
 		}
@@ -122,7 +122,7 @@ public class PassEvent extends Event {
 	
 	private Integer passDirection(Ball ball, Match match) {
 		Random random = new Random();
-		if(ball.getPlayerWithBall().getCurrentTeamID() == match.getHomeTeamId()){
+		if(ball.getPlayerWithBall().getTeam().getId() == match.getAwayTeam().getId()){
 			random.nextInt(1,11);
 			if(random.nextInt(1,11)>6){
 				return -1;
@@ -131,7 +131,7 @@ public class PassEvent extends Event {
 				return 1;
 			}
 		}
-		if (ball.getPlayerWithBall().getCurrentTeamID() == match.getAwayTeamId()){
+		if (ball.getPlayerWithBall().getTeam().getId() == match.getAwayTeam().getId()){
 			random.nextInt(1,11);
 			if(random.nextInt(1,11)>6){
 				return 1;

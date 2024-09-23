@@ -25,7 +25,7 @@ public class League extends BaseEntity {
 	private Integer division;
 	private LocalDate seasonStartDate;
 	private LocalDate seasonEndDate;
-	@OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "league", cascade = CascadeType.PERSIST)
 	private List<Team> leagueTeamList;
 	@Transient
 	private List<Integer> leagueTeamIDList;
